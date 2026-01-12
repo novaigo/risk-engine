@@ -1,0 +1,47 @@
+risk:
+  rules:
+    amount:
+      enabled: true
+      maxAmount: 300
+      score: 40
+      severity: BLOCK
+    velocity:
+      enabled: true
+      maxTxPerMinute: 5
+      score: 25
+      severity: REVIEW
+    country:
+      enabled: true
+      highRiskCountries:
+        - AF
+        - DZ
+        - AO
+        - BO
+        - VG
+        - CM
+        - CI
+        - CD
+        - HT
+        - IR
+        - KE
+        - LA
+        - LB
+        - ML
+        - MC
+        - MM
+        - NA
+        - NP
+        - KP
+        - RU
+        - SS
+        - SY
+        - TT
+        - VU
+        - VE
+        - VN
+        - YE
+      score: 30
+      severity: BLOCK
+  decisionThreshold:
+    review: 30
+    block: 50
