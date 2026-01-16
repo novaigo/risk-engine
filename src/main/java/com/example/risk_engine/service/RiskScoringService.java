@@ -1,8 +1,6 @@
 package com.example.risk_engine.service;
 
-import com.example.risk_engine.model.RiskScore;
-import com.example.risk_engine.model.RuleResult;
-import com.example.risk_engine.model.Transaction;
+import com.example.risk_engine.model.*;
 import com.example.risk_engine.rules.*;
 import com.example.risk_engine.rules.config.RuleConfigFactory;
 import org.springframework.stereotype.Service;
@@ -36,7 +34,7 @@ public class RiskScoringService {
                 .filter(Objects::nonNull)
                 .toList();
 
-        String decision = decisionEngine.decide(results);
+        Decision decision = decisionEngine.decide(results);
         int totalScore = results.stream().mapToInt(RuleResult::getScore).sum();
 
         return new RiskScore(totalScore, decision, results);

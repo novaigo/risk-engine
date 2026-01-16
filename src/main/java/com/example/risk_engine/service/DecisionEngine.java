@@ -1,6 +1,8 @@
 package com.example.risk_engine.service;
 
+import com.example.risk_engine.model.Decision;
 import com.example.risk_engine.model.RuleResult;
+import com.example.risk_engine.model.Severity;
 import com.example.risk_engine.rules.config.DecisionProperties;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,27 @@ public class DecisionEngine {
         this.reviewThreshold = props.getReviewThreshold();
         this.blockThreshold = props.getBlockThreshold();
     }
-    public String decide(List<RuleResult> results) {
+
+    public Decision decide(List<RuleResult> results) {
         int totalScore = results.stream()
                 .mapToInt(RuleResult::getScore)
                 .sum();
 
-        //todo:
-        if(totalScore >=blockThreshold) return "BLOCK";
-        if(totalScore >=reviewThreshold) return "REVIEW";
-        return "ALLOW";
+        boolean hasBlockSeverity = results.stream()
+                .anyMatch(r -> r.getSeverity() == Severity.BLOCK);
+
+        if (hasBlockSeverity) {
+            return Decision.BLOCK;
+        }
+
+        if (totalScore >= blockThreshold) {
+            return Decision.BLOCK;
+        }
+
+        if (totalScore >= reviewThreshold) {
+            return Decision.REVIEW;
+        }
+
+        return Decision.ALLOW;
     }
 }

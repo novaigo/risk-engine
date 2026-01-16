@@ -4,10 +4,10 @@ import java.util.List;
 public class RiskScore {
 
     private final int totalScore;
-    private final String decision;
+    private final Decision decision;
     private final List<RuleResult> ruleResults;
 
-    public RiskScore(int totalScore, String decision, List<RuleResult> ruleResults) {
+    public RiskScore(int totalScore, Decision decision, List<RuleResult> ruleResults) {
         this.totalScore = totalScore;
         this.decision = decision;
         this.ruleResults = ruleResults;
@@ -17,7 +17,7 @@ public class RiskScore {
         return totalScore;
     }
 
-    public String getDecision() {
+    public Decision getDecision() {
         return decision;
     }
 

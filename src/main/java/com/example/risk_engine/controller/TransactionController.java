@@ -14,7 +14,7 @@ public class TransactionController {
 
     private final RiskScoringService riskScoringService;
 
-    private TransactionController(RiskScoringService riskScoringService) {
+    public TransactionController(RiskScoringService riskScoringService) {
         this.riskScoringService = riskScoringService;
     }
 
