@@ -48,6 +48,6 @@ risk:
       endHour: 5
       score: 20
       severity: REVIEW
-  decisionThreshold:
+  decision:
     review: 30
     block: 50
