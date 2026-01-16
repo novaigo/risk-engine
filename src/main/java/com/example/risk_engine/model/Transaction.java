@@ -1,9 +1,12 @@
 package com.example.risk_engine.model;
 
+import java.time.LocalDateTime;
+
 public class Transaction {
     private double amount;
     private int velocity;
-    private int hour;
+    private LocalDateTime timestamp;
+    private String timezone;
     private String country;
 
     public double getAmount() {
@@ -22,12 +25,20 @@ public class Transaction {
         this.velocity = velocity;
     }
 
-    public int getHour() {
-        return hour;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 
     public String getCountry() {
@@ -38,6 +49,7 @@ public class Transaction {
         this.country = country;
     }
 
+    //todo:
     public int getTransactionsInLastMinute() {
         // random number for simulation
         return (int)(Math.random() * 10); // 0 - 9 transactions
