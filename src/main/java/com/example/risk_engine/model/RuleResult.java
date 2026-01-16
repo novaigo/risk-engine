@@ -10,6 +10,7 @@ public class RuleResult {
     private final int score;
     private final String explanation;
     private final Severity severity;
+    private final int effectiveScore;
 
     public RuleResult(String ruleName, boolean triggered, int score, String explanation, Severity severity) {
         this.ruleName = ruleName;
@@ -17,6 +18,7 @@ public class RuleResult {
         this.score = score;
         this.explanation = explanation;
         this.severity = severity;
+        this.effectiveScore = (int) (score * severity.weight());
     }
 
     public String getRuleName() {
@@ -37,6 +39,10 @@ public class RuleResult {
 
     public Severity getSeverity() {
         return severity;
+    }
+
+    public int getEffectiveScore() {
+        return effectiveScore;
     }
 
     @Override

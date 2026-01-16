@@ -21,13 +21,13 @@ public class DecisionEngine {
 
     public Decision decide(List<RuleResult> results) {
         int totalScore = results.stream()
-                .mapToInt(RuleResult::getScore)
+                .mapToInt(RuleResult::getEffectiveScore)
                 .sum();
 
-        boolean hasBlockSeverity = results.stream()
-                .anyMatch(r -> r.getSeverity() == Severity.BLOCK);
+        boolean hardBlock = results.stream()
+                .anyMatch(r -> r.isTriggered() && r.getSeverity() == Severity.BLOCK);
 
-        if (hasBlockSeverity) {
+        if (hardBlock) {
             return Decision.BLOCK;
         }
 

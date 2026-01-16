@@ -35,7 +35,7 @@ public class RiskScoringService {
                 .toList();
 
         Decision decision = decisionEngine.decide(results);
-        int totalScore = results.stream().mapToInt(RuleResult::getScore).sum();
+        int totalScore = results.stream().mapToInt(RuleResult::getEffectiveScore).sum();
 
         return new RiskScore(totalScore, decision, results);
     }
