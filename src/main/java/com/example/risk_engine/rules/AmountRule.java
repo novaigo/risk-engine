@@ -18,14 +18,14 @@ public class AmountRule implements Rule{
 
     @Override
     public RuleResult evaluate(Transaction tx){
-        boolean triggered = tx.getAmount() > config.getMaxAmount();
-        int score = triggered ? config.getScore() : 0;
-        Severity severity = triggered ? config.getSeverity() : Severity.INFO;
+        boolean triggered = tx.getAmount() > config.maxAmount();
+        int score = triggered ? config.score() : 0;
+        Severity severity = triggered ? config.severity() : Severity.INFO;
             return new RuleResult(
                     "AmountRule",
                     triggered,
                     score,
-                    triggered ? "Transaction amount exceeds " + config.getMaxAmount() : "Transaction amount normal",
+                    triggered ? "Transaction amount exceeds " + config.maxAmount() : "Transaction amount normal",
                     severity
             );
     }

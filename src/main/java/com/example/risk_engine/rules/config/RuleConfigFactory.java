@@ -1,9 +1,6 @@
 package com.example.risk_engine.rules.config;
 
-import com.example.risk_engine.rules.AmountRule;
-import com.example.risk_engine.rules.CountryRule;
-import com.example.risk_engine.rules.Rule;
-import com.example.risk_engine.rules.VelocityRule;
+import com.example.risk_engine.rules.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -47,5 +44,18 @@ public class RuleConfigFactory {
         return new CountryRule(
                 new CountryRuleConfig(cfg.getHighRiskCountries(), cfg.getScore(), cfg.getSeverity())
         );
+    }
+
+    public Rule hourRule() {
+        var cfg = properties.getHour();
+
+        if (!cfg.isEnabled()) {
+            return null;
+        }
+
+        return new HourRule(
+                new HourRuleConfig(cfg.getStartHour(), cfg.getEndHour(), cfg.getScore(), cfg.getSeverity())
+        );
+
     }
 }

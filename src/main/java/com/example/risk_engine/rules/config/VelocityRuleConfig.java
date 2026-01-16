@@ -2,7 +2,7 @@ package com.example.risk_engine.rules.config;
 
 import com.example.risk_engine.model.Severity;
 
-public class VelocityRuleConfig {
+public class VelocityRuleConfig implements RuleConfig {
 
     private final int maxTxPerMinute;
     private final int score;

@@ -1,17 +1,31 @@
 package com.example.risk_engine.rules;
 
+import com.example.risk_engine.model.RuleResult;
+import com.example.risk_engine.model.Severity;
 import com.example.risk_engine.model.Transaction;
+import com.example.risk_engine.rules.config.HourRuleConfig;
 
-import java.util.List;
+public class HourRule implements Rule {
 
-public class HourRule implements Rule{
+    private final HourRuleConfig config;
+
+    public HourRule(HourRuleConfig config) {
+        this.config = config;
+    }
 
     @Override
-    public int apply(Transaction tx, List<String> explanations) {
-        if (tx.getHour() < 6 || tx.getHour() > 22) {
-            explanations.add("Transaction performed during unusual hours: " + tx.getHour());
-            return 10;
-        }
-        return 0;
+    public RuleResult evaluate(Transaction tx) {
+        int txTime = tx.getHour();
+        boolean triggered = txTime >= config.startHour() && txTime <= config.endHour();
+        int score = triggered ? config.score() : 0;
+        Severity severity = triggered ? config.severity() : Severity.INFO;
+
+        return new RuleResult(
+                "HourRule",
+                triggered,
+                score,
+                triggered ? "Transaction executed at risky hour: " + txTime : "Hour normal",
+                severity
+        );
     }
 }

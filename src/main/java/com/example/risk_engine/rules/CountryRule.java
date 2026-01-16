@@ -48,13 +48,13 @@ public class CountryRule implements Rule {
     public RuleResult evaluate(Transaction tx) {
         String country = tx.getCountry();
 
-        Set<String> highRisk = config.getHighRiskCountries() != null && !config.getHighRiskCountries().isEmpty()
-                ? Set.copyOf(config.getHighRiskCountries())
+        Set<String> highRisk = config.highRiskCountries() != null && !config.highRiskCountries().isEmpty()
+                ? Set.copyOf(config.highRiskCountries())
                 : DEFAULT_RISKY_COUNTRIES;
 
         boolean triggered = highRisk.contains(country);
-        int score = triggered ? config.getScore() : 0;
-        Severity severity = triggered ? config.getSeverity() : Severity.INFO;
+        int score = triggered ? config.score() : 0;
+        Severity severity = triggered ? config.severity() : Severity.INFO;
 
         return new RuleResult(
                 "CountryRule",

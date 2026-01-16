@@ -42,6 +42,12 @@ risk:
         - YE
       score: 30
       severity: BLOCK
+    hour:
+      enabled: true
+      startHour: 0
+      endHour: 5
+      score: 20
+      severity: REVIEW
   decisionThreshold:
     review: 30
     block: 50

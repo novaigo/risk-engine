@@ -13,6 +13,7 @@ public class RiskRulesProperties{
     private Amount amount;
     private Velocity velocity;
     private Country country;
+    private Hour hour;
 
     public Amount getAmount() {
         return amount;
@@ -36,6 +37,14 @@ public class RiskRulesProperties{
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public Hour getHour() {
+        return hour;
+    }
+
+    public void setHour(Hour hour) {
+        this.hour = hour;
     }
 
     public static class Amount {
@@ -135,6 +144,54 @@ public class RiskRulesProperties{
 
         public void setHighRiskCountries(List<String> highRiskCountries) {
             this.highRiskCountries = highRiskCountries;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
+        }
+
+        public Severity getSeverity() {
+            return severity;
+        }
+
+        public void setSeverity(Severity severity) {
+            this.severity = severity;
+        }
+    }
+
+    public static class Hour {
+        private boolean enabled;
+        private int startHour;
+        private int endHour;
+        private int score;
+        private Severity severity;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public int getStartHour() {
+            return startHour;
+        }
+
+        public void setStartHour(int startHour) {
+            this.startHour = startHour;
+        }
+
+        public int getEndHour() {
+            return endHour;
+        }
+
+        public void setEndHour(int endHour) {
+            this.endHour = endHour;
         }
 
         public int getScore() {
