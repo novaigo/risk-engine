@@ -12,7 +12,11 @@ import java.util.List;
  */
 @Component
 public class RuleRegistry {
-    private final List<Rule> rules = new ArrayList<>();
+    private final List<Rule> rules;
+
+    public RuleRegistry(List<Rule> rules) {
+        this.rules = new ArrayList<>(rules);
+    }
 
     public void register(Rule rule) {
         if (rule != null) {

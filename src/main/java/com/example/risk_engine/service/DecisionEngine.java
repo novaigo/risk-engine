@@ -28,6 +28,7 @@ public class DecisionEngine {
                 .anyMatch(r -> r.isTriggered() && r.getSeverity() == Severity.BLOCK);
 
         if (hardBlock) {
+            //separated so we can later decide if the block was hardBlock or based on totalScore
             return Decision.BLOCK;
         }
 
