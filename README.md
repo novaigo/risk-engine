@@ -1,6 +1,15 @@
 # Risk Engine
 
-A simplified **transaction risk scoring engine** for financial transactions.
+A general-purpose risk engine for scoring and decision-making based on configurable rules.
+
+This engine implements a flexible **filter → score → decision** pattern that can be applied across many domains. Example applications include:
+
+- **Fraud detection** (financial transactions, orders, gift cards)
+- **Underwriting automation** (insurance, credit risk)
+- **Risk scoring** (transactions, claims, devices)
+- **Alert prioritization** (healthcare, operations)
+
+**Note:** In this repository, the engine is presented as a **transaction risk scoring engine** for financial transactions as a concrete example.
 
 ---
 
@@ -30,3 +39,17 @@ The engine consists of two main flows:
 mvn clean install
 mvn spring-boot:run
 ```
+
+### transaction test
+```json
+curl -X POST http://localhost:<port>/transactions/score \
+-H "Content-Type: application/json" \
+-d '{
+"amount": 900,
+"country": "AT",
+"velocity": 1,
+"timestamp": "2026-01-16T02:30:00",
+"timezone": "UTC"
+}'
+```
+
