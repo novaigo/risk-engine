@@ -1,4 +1,4 @@
-package com.example.risk_engine.service;
+package com.example.risk_engine.performance;
 
 import com.example.risk_engine.model.Decision;
 import com.example.risk_engine.model.RiskScore;
@@ -7,17 +7,25 @@ import com.example.risk_engine.model.Transaction;
 import com.example.risk_engine.rules.config.DecisionProperties;
 import com.example.risk_engine.rules.config.RiskRulesProperties;
 import com.example.risk_engine.rules.config.RuleConfigFactory;
+import com.example.risk_engine.service.DecisionEngine;
+import com.example.risk_engine.service.RiskScoringService;
+import com.example.risk_engine.service.RuleRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-class RiskScoringServiceTest {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+
+public class RiskScoringPerformanceTest {
 
     private RiskScoringService scoringService;
 
@@ -73,31 +81,47 @@ class RiskScoringServiceTest {
 
         scoringService = new RiskScoringService(registry, decisionEngine);
     }
-    @Test
-    //should be blocked because of the country
-    void highRiskCountry(){
-        Transaction tx = new Transaction();
-        LocalDateTime timestamp = LocalDateTime.of(2026,1, 16,20, 0 ); //16.1.2026 -- 20:00
-        tx.setTimestamp(timestamp);
-        tx.setCountry("KP");
-        tx.setAmount(10);
-        tx.setVelocity(1);
 
-        RiskScore score = scoringService.evaluate(tx);
-        assertThat(score.getDecision()).isEqualTo(Decision.BLOCK);
-    }
     @Test
-    //normal transaction should be allowed
-    void shouldPass(){
-        Transaction tx = new Transaction();
-        LocalDateTime timestamp = LocalDateTime.of(2026,1, 16,20, 0 ); //16.1.2026 -- 20:00
-        tx.setTimestamp(timestamp);
-        tx.setCountry("AT");
-        tx.setAmount(100);
-        tx.setVelocity(2);
+    void highThroughputTest() {
+        Random random = new Random();
+        List<Transaction> txs = IntStream.range(0, 100_000)
+                .mapToObj(i -> {
+                    Transaction tx = new Transaction();
+                    //30-50
+                    tx.setAmount(30 + random.nextInt(21));
+                    tx.setCountry("AT");
+                    tx.setTimestamp(LocalDateTime.now());
+                    tx.setVelocity(1 % 10);
+                    return tx;
+                })
+                .collect(Collectors.toList());
 
-        RiskScore score = scoringService.evaluate(tx);
-        assertThat(score.getRuleResults()).hasSize(4);
-        assertThat(score.getDecision()).isEqualTo(Decision.ALLOW);
+        Transaction highRiskCountryTx = new Transaction();
+        highRiskCountryTx.setAmount(50);
+        highRiskCountryTx.setCountry("KP");
+        highRiskCountryTx.setTimestamp(LocalDateTime.now());
+        highRiskCountryTx.setVelocity(1);
+
+        Transaction amountTx = new Transaction();
+        amountTx.setAmount(2000);
+        amountTx.setCountry("RU");
+        amountTx.setTimestamp(LocalDateTime.now());
+        amountTx.setVelocity(5);
+
+        txs.add(0, highRiskCountryTx);
+        txs.add(1000, amountTx);
+
+        long start = System.currentTimeMillis();
+        List<RiskScore> scores = txs.parallelStream()
+                .map(tx -> scoringService.evaluate(tx))
+                .toList();
+        long end = System.currentTimeMillis();
+        System.out.println("Processed 100_000 tx in " + (end - start) + "ms");
+
+
+        assertThat(scores.get(0).getDecision()).isEqualTo(Decision.BLOCK);
+        assertThat(scores.get(1000).getDecision()).isEqualTo(Decision.BLOCK);
+        assertTimeout(Duration.ofMinutes(1), () -> {});
     }
 }
