@@ -18,7 +18,7 @@ public class AmountRule implements Rule{
 
     @Override
     public RuleResult evaluate(Transaction tx){
-        boolean triggered = tx.getAmount() > config.maxAmount();
+        boolean triggered = tx.getAmount().compareTo(config.maxAmount()) > 0;
         int score = triggered ? config.score() : 0;
         Severity severity = triggered ? config.severity() : Severity.INFO;
             return new RuleResult(

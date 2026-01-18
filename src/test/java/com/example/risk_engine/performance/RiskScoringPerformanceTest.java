@@ -13,6 +13,7 @@ import com.example.risk_engine.service.RuleRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,7 +43,7 @@ public class RiskScoringPerformanceTest {
         RiskRulesProperties.Amount amount = new RiskRulesProperties.Amount();
         amount.setEnabled(true);
         amount.setScore(40);
-        amount.setMaxAmount(120);
+        amount.setMaxAmount(BigDecimal.valueOf(120));
         amount.setSeverity(Severity.BLOCK);
         rrProps.setAmount(amount);
 
@@ -89,7 +90,7 @@ public class RiskScoringPerformanceTest {
                 .mapToObj(i -> {
                     Transaction tx = new Transaction();
                     //30-50
-                    tx.setAmount(30 + random.nextInt(21));
+                    tx.setAmount(BigDecimal.valueOf(30 + random.nextInt(21)));
                     tx.setCountry("AT");
                     tx.setTimestamp(LocalDateTime.now());
                     tx.setVelocity(1 % 10);
@@ -98,13 +99,13 @@ public class RiskScoringPerformanceTest {
                 .collect(Collectors.toList());
 
         Transaction highRiskCountryTx = new Transaction();
-        highRiskCountryTx.setAmount(50);
+        highRiskCountryTx.setAmount(BigDecimal.valueOf((50)));
         highRiskCountryTx.setCountry("KP");
         highRiskCountryTx.setTimestamp(LocalDateTime.now());
         highRiskCountryTx.setVelocity(1);
 
         Transaction amountTx = new Transaction();
-        amountTx.setAmount(2000);
+        amountTx.setAmount(BigDecimal.valueOf(2000));
         amountTx.setCountry("RU");
         amountTx.setTimestamp(LocalDateTime.now());
         amountTx.setVelocity(5);

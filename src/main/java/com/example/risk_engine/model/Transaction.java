@@ -1,19 +1,20 @@
 package com.example.risk_engine.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Transaction {
-    private double amount;
+    private BigDecimal amount;
     private int velocity;
     private LocalDateTime timestamp;
     private String timezone;
     private String country;
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

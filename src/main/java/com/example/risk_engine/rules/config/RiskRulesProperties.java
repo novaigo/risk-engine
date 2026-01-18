@@ -4,6 +4,7 @@ import com.example.risk_engine.model.Severity;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -50,7 +51,7 @@ public class RiskRulesProperties{
     public static class Amount {
 
         private boolean enabled;
-        private int maxAmount;
+        private BigDecimal maxAmount;
         private int score;
         private Severity severity;
 
@@ -62,11 +63,11 @@ public class RiskRulesProperties{
             this.enabled = enabled;
         }
 
-        public int getMaxAmount() {
+        public BigDecimal getMaxAmount() {
             return maxAmount;
         }
 
-        public void setMaxAmount(int maxAmount) {
+        public void setMaxAmount(BigDecimal maxAmount) {
             this.maxAmount = maxAmount;
         }
 

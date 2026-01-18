@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +35,7 @@ class RiskScoringServiceTest {
         RiskRulesProperties.Amount amount = new RiskRulesProperties.Amount();
         amount.setEnabled(true);
         amount.setScore(40);
-        amount.setMaxAmount(120);
+        amount.setMaxAmount(BigDecimal.valueOf(120));
         amount.setSeverity(Severity.BLOCK);
         rrProps.setAmount(amount);
 
@@ -80,7 +81,7 @@ class RiskScoringServiceTest {
         LocalDateTime timestamp = LocalDateTime.of(2026,1, 16,20, 0 ); //16.1.2026 -- 20:00
         tx.setTimestamp(timestamp);
         tx.setCountry("KP");
-        tx.setAmount(10);
+        tx.setAmount(BigDecimal.valueOf(10));
         tx.setVelocity(1);
 
         RiskScore score = scoringService.evaluate(tx);
@@ -93,7 +94,7 @@ class RiskScoringServiceTest {
         LocalDateTime timestamp = LocalDateTime.of(2026,1, 16,20, 0 ); //16.1.2026 -- 20:00
         tx.setTimestamp(timestamp);
         tx.setCountry("AT");
-        tx.setAmount(100);
+        tx.setAmount(BigDecimal.valueOf(100));
         tx.setVelocity(2);
 
         RiskScore score = scoringService.evaluate(tx);
