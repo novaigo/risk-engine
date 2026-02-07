@@ -4,19 +4,17 @@ import com.example.risk_engine.model.RuleResult;
 import com.example.risk_engine.model.Severity;
 import com.example.risk_engine.model.Transaction;
 import com.example.risk_engine.rules.config.VelocityRuleConfig;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 /**
  * Rule evaluating transaction velocity risk.
  */
+@RequiredArgsConstructor
 public class VelocityRule implements Rule{
 
     private final VelocityRuleConfig config;
-
-    public VelocityRule(VelocityRuleConfig config){
-        this.config = config;
-    }
 
     @Override
     public RuleResult evaluate(Transaction tx) {

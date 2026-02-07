@@ -32,12 +32,13 @@ public class RiskScoringPerformanceTest {
 
     @BeforeEach
     void setup() {
-        //config engine
+        // Decision engine configuration
         DecisionProperties decProps = new DecisionProperties();
         decProps.setReviewThreshold(50);
         decProps.setBlockThreshold(80);
         DecisionEngine decisionEngine = new DecisionEngine(decProps);
 
+        // Risk rules configuration
         RiskRulesProperties rrProps = new RiskRulesProperties();
 
         RiskRulesProperties.Amount amount = new RiskRulesProperties.Amount();
@@ -49,7 +50,6 @@ public class RiskScoringPerformanceTest {
 
         RiskRulesProperties.Velocity velocity = new RiskRulesProperties.Velocity();
         velocity.setEnabled(true);
-        velocity.setScore(100);
         velocity.setScore(3);
         velocity.setSeverity(Severity.REVIEW);
         rrProps.setVelocity(velocity);
@@ -70,15 +70,14 @@ public class RiskScoringPerformanceTest {
         rrProps.setCountry(country);
 
         RuleConfigFactory factory = new RuleConfigFactory(rrProps);
-        //if some rule is disabled needs to be filtered
+
+        // filter disabled rules
         RuleRegistry registry = new RuleRegistry(Stream.of(
                 factory.amountRule(),
                 factory.countryRule(),
                 factory.hourRule(),
                 factory.velocityRule()
-                //if some rule is disabled needs to be filtered
-        ).filter(Objects::nonNull).toList()
-        );
+        ).filter(Objects::nonNull).toList());
 
         scoringService = new RiskScoringService(registry, decisionEngine);
     }

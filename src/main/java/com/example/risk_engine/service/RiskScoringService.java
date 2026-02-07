@@ -1,6 +1,7 @@
 package com.example.risk_engine.service;
 
 import com.example.risk_engine.model.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,16 +13,12 @@ import java.util.Objects;
  * and provides explanations for why certain scores were applied.
  */
 @Service
+@RequiredArgsConstructor
 public class RiskScoringService {
 
     private final RuleRegistry registry;
     private final DecisionEngine decisionEngine;
 
-
-    public RiskScoringService(RuleRegistry registry, DecisionEngine decisionEngine) {
-        this.registry = registry;
-        this.decisionEngine = decisionEngine;
-    }
 
     public RiskScore evaluate(Transaction tx) {
         List<RuleResult> results = registry.getRules().stream()

@@ -4,17 +4,15 @@ import com.example.risk_engine.model.RuleResult;
 import com.example.risk_engine.model.Severity;
 import com.example.risk_engine.model.Transaction;
 import com.example.risk_engine.rules.config.AmountRuleConfig;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rule evaluating transaction amount risk.
  */
+@RequiredArgsConstructor
 public class AmountRule implements Rule{
 
     private final AmountRuleConfig config;
-
-    public AmountRule(AmountRuleConfig config) {
-        this.config = config;
-    }
 
     @Override
     public RuleResult evaluate(Transaction tx){

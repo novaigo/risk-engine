@@ -4,25 +4,25 @@ import com.example.risk_engine.model.Decision;
 import com.example.risk_engine.model.RuleResult;
 import com.example.risk_engine.model.Severity;
 import com.example.risk_engine.rules.config.DecisionProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DecisionEngine {
 
-    private final int reviewThreshold;
-    private final int blockThreshold;
-
-    public DecisionEngine(DecisionProperties props) {
-        this.reviewThreshold = props.getReviewThreshold();
-        this.blockThreshold = props.getBlockThreshold();
-    }
+    private final DecisionProperties decisionProperties;
 
     public Decision decide(List<RuleResult> results) {
+        int reviewThreshold = decisionProperties.getReviewThreshold();
+        int blockThreshold = decisionProperties.getBlockThreshold();
+
         int totalScore = results.stream()
                 .mapToInt(RuleResult::getEffectiveScore)
                 .sum();
+
 
         boolean hardBlock = results.stream()
                 .anyMatch(r -> r.isTriggered() && r.getSeverity() == Severity.BLOCK);

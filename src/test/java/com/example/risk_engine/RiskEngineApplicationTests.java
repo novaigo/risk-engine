@@ -9,5 +9,4 @@ class RiskEngineApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

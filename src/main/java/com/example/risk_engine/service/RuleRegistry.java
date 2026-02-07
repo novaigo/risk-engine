@@ -1,6 +1,7 @@
 package com.example.risk_engine.service;
 
 import com.example.risk_engine.rules.Rule;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,12 +12,9 @@ import java.util.List;
  * Supports dynamic enable/disable and centralized management.
  */
 @Component
+@RequiredArgsConstructor
 public class RuleRegistry {
     private final List<Rule> rules;
-
-    public RuleRegistry(List<Rule> rules) {
-        this.rules = new ArrayList<>(rules);
-    }
 
     public void register(Rule rule) {
         if (rule != null) {

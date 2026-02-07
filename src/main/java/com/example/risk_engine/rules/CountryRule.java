@@ -4,9 +4,11 @@ import com.example.risk_engine.model.RuleResult;
 import com.example.risk_engine.model.Severity;
 import com.example.risk_engine.model.Transaction;
 import com.example.risk_engine.rules.config.CountryRuleConfig;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
 
+@RequiredArgsConstructor
 public class CountryRule implements Rule {
 
     private final CountryRuleConfig config;
@@ -39,10 +41,6 @@ public class CountryRule implements Rule {
             "VN", // Vietnam
             "YE"  // Yemen
     );
-
-    public CountryRule(CountryRuleConfig config) {
-        this.config = config;
-    }
 
     @Override
     public RuleResult evaluate(Transaction tx) {
