@@ -41,15 +41,15 @@ mvn spring-boot:run
 ```
 
 ### transaction test
-```json
+```bash
 curl -X POST http://localhost:<port>/transactions/score \
--H "Content-Type: application/json" \
--d '{
-"amount": 900,
-"country": "AT",
-"velocity": 1,
-"timestamp": "2026-01-16T02:30:00",
-"timezone": "UTC"
-}'
+   -H "Content-Type: application/json" \
+   -d '{
+      "amount": 900,
+      "country": "AT",
+      "velocity": 1,
+      "timestamp": "2026-01-16T02:30:00",
+      "timezone": "UTC"
+   }'
 ```
 
